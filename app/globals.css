@@ -53,21 +53,13 @@ body {
   transform-style: preserve-3d;
 }
 
-/* Hardware acceleration for 3D transforms */
+/* Specific GPU acceleration where needed */
 .gpu-accelerated {
   transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   perspective: 1000px;
-}
-
-/* Smooth 3D transforms */
-* {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 
 /* ===== MAGICAL EFFECTS ===== */
@@ -123,18 +115,23 @@ body {
   animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Glass Morphism */
+/* Glass Morphism - Optimized for Mobile */
 .glass {
-  background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(10, 10, 10, 0.8);
   border: 1px solid rgba(237, 237, 237, 0.1);
 }
 
 .glass-light {
   background: rgba(237, 237, 237, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+}
+
+@media (min-width: 768px) {
+
+  .glass,
+  .glass-light {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 /* Gradient Text */

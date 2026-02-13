@@ -1,27 +1,48 @@
-"use client";
 import { FadeIn } from "@/components/ui/Motion";
 import Scene3D from "@/components/ui/Scene3D";
 import ParticleField from "@/components/3d/ParticleField";
 import FloatingGeometry from "@/components/3d/FloatingGeometry";
 import { use3DMouseTracking } from "@/hooks/use3DMouseTracking";
+import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import MagneticButton from "@/components/effects/MagneticButton";
 
 export default function Hero() {
     const mouse = use3DMouseTracking({ intensity: 0.5, smoothing: 0.08 });
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden pt-20">
-            {/* 3D Background Scene */}
-            <div className="absolute inset-0 z-0">
+            {/* 3D Scene Loading Overlay - Only on Desktop */}
+            <AnimatePresence>
+                {isLoading && (
+                    <motion.div
+                        key="hero-loader"
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-[20] bg-avalon-base hidden md:flex items-center justify-center"
+                    >
+                        <div className="w-8 h-8 border border-avalon-accent/30 border-t-avalon-accent rounded-full animate-spin" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Mobile-Only Static/Animated Background (Extremely Lightweight) */}
+            <div className="absolute inset-0 z-0 md:hidden animated-gradient opacity-20" />
+
+            {/* 3D Background Scene - Desktop Only for performance */}
+            <div className="absolute inset-0 z-0 hidden md:block">
                 <Scene3D camera={{ position: [0, 0, 5], fov: 75 }}>
-                    {/* Particle Field */}
                     <ParticleField
                         mouseX={mouse.normalizedX}
                         mouseY={mouse.normalizedY}
                     />
-
-                    {/* Floating Geometric Shapes - Reduced to 2 for performance */}
                     <FloatingGeometry
                         type="dodecahedron"
                         position={[-3, 2, -3]}
@@ -34,8 +55,6 @@ export default function Hero() {
                         scale={1.4}
                         rotationSpeed={0.25}
                     />
-
-                    {/* Simplified Lighting */}
                     <ambientLight intensity={0.6} />
                 </Scene3D>
             </div>

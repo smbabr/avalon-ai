@@ -1,96 +1,111 @@
 "use client";
-import { useEffect, useState, useMemo } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
 /**
- * Optimized Custom Cursor with Glow Effect
- * Uses hardware acceleration and spring physics for maximum smoothness
+ * Extreme Performance Custom Cursor
+ * Bypasses React render cycle entirely for position updates via raw DOM + translate3d
+ * Optimized for low-latency on laptop-class hardware
  */
 export default function CursorGlow() {
-    const [isClicking, setIsClicking] = useState(false);
+    const glowRef = useRef<HTMLDivElement>(null);
+    const dotRef = useRef<HTMLDivElement>(null);
     const [isMobile, setIsMobile] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-
-    // Use Motion Values for high-performance updates outside of React render cycle
-    const mouseX = useMotionValue(-100);
-    const mouseY = useMotionValue(-100);
-
-    // Spring configuration for smooth but responsive movement
-    const springConfig = { damping: 30, stiffness: 500, mass: 0.5 };
-    const springX = useSpring(mouseX, springConfig);
-    const springY = useSpring(mouseY, springConfig);
 
     useEffect(() => {
-        // Precise mobile detection
         const checkMobile = () => {
             const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
             setIsMobile(mobile);
         };
 
         checkMobile();
-
         if (isMobile) return;
 
+        // Position state (outside of React)
+        const pos = { x: -100, y: -100 };
+        const glow = { x: -100, y: -100 };
+        const dot = { x: -100, y: -100 };
+        let isClicking = false;
+        let isVisible = false;
+
         const handleMouseMove = (e: MouseEvent) => {
-            if (!isVisible) setIsVisible(true);
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
+            if (!isVisible) {
+                isVisible = true;
+                if (glowRef.current) glowRef.current.style.opacity = '0.3';
+                if (dotRef.current) dotRef.current.style.opacity = '1';
+            }
+            pos.x = e.clientX;
+            pos.y = e.clientY;
         };
 
-        const handleMouseDown = () => setIsClicking(true);
-        const handleMouseUp = () => setIsClicking(false);
-        const handleMouseLeave = () => setIsVisible(false);
-        const handleMouseEnter = () => setIsVisible(true);
+        const handleMouseDown = () => { isClicking = true; };
+        const handleMouseUp = () => { isClicking = false; };
+        const handleMouseLeave = () => {
+            isVisible = false;
+            if (glowRef.current) glowRef.current.style.opacity = '0';
+            if (dotRef.current) dotRef.current.style.opacity = '0';
+        };
+
+        const update = () => {
+            // High-performance interpolation
+            // Glow: Smooth, slow follow
+            glow.x += (pos.x - glow.x) * 0.12;
+            glow.y += (pos.y - glow.y) * 0.12;
+
+            // Dot: Crisp, fast follow
+            dot.x += (pos.x - dot.x) * 0.35;
+            dot.y += (pos.y - dot.y) * 0.35;
+
+            const scaleGlow = isClicking ? 0.8 : 1;
+            const scaleDot = isClicking ? 0.6 : 1;
+
+            if (glowRef.current) {
+                glowRef.current.style.transform = `translate3d(${glow.x}px, ${glow.y}px, 0) translate(-50%, -50%) scale(${scaleGlow})`;
+            }
+            if (dotRef.current) {
+                dotRef.current.style.transform = `translate3d(${dot.x}px, ${dot.y}px, 0) translate(-50%, -50%) scale(${scaleDot})`;
+            }
+
+            requestAnimationFrame(update);
+        };
 
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mousedown', handleMouseDown);
         window.addEventListener('mouseup', handleMouseUp);
         document.body.addEventListener('mouseleave', handleMouseLeave);
-        document.body.addEventListener('mouseenter', handleMouseEnter);
+        const rafId = requestAnimationFrame(update);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
             document.body.removeEventListener('mouseleave', handleMouseLeave);
-            document.body.removeEventListener('mouseenter', handleMouseEnter);
+            cancelAnimationFrame(rafId);
         };
-    }, [isMobile, isVisible, mouseX, mouseY]);
+    }, [isMobile]);
 
     if (isMobile) return null;
 
     return (
         <>
-            {/* Glow effect - Optimized with translate3d through framer-motion */}
-            <motion.div
-                className="pointer-events-none fixed top-0 left-0 z-[9999] mix-blend-screen will-change-transform"
+            {/* Glow effect - Raw DOM for zero-latency */}
+            <div
+                ref={glowRef}
+                className="pointer-events-none fixed top-0 left-0 z-[9999] mix-blend-screen will-change-transform opacity-0 pointer-events-none"
                 style={{
-                    x: springX,
-                    y: springY,
-                    translateX: '-50%',
-                    translateY: '-50%',
-                    opacity: isVisible ? 0.3 : 0,
-                    scale: isClicking ? 0.8 : 1,
+                    width: '250px',
+                    height: '250px',
+                    background: 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 70%)',
+                    transition: 'opacity 0.3s ease-out',
                 }}
-            >
-                <div
-                    className="w-[300px] h-[300px] rounded-full"
-                    style={{
-                        background: 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%)',
-                    }}
-                />
-            </motion.div>
+            />
 
-            {/* Cursor dot */}
-            <motion.div
-                className="pointer-events-none fixed top-0 left-0 z-[10000] w-2 h-2 rounded-full bg-avalon-accent border border-avalon-accent/50 will-change-transform"
+            {/* Cursor dot - High-precision follow */}
+            <div
+                ref={dotRef}
+                className="pointer-events-none fixed top-0 left-0 z-[10000] w-1.5 h-1.5 rounded-full bg-avalon-accent opacity-0 border border-avalon-accent/50 will-change-transform pointer-events-none"
                 style={{
-                    x: mouseX,
-                    y: mouseY,
-                    translateX: '-50%',
-                    translateY: '-50%',
-                    opacity: isVisible ? 1 : 0,
-                    scale: isClicking ? 0.6 : 1,
+                    boxShadow: '0 0 10px rgba(16, 185, 129, 0.4)',
+                    transition: 'opacity 0.2s ease-out',
                 }}
             />
         </>
