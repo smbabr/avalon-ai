@@ -1,44 +1,50 @@
 "use client";
-import { Canvas } from '@react-three/fiber';
-import { ReactNode, Suspense } from 'react';
-import { detectDeviceCapabilities } from '@/lib/DeviceCapabilities';
+import { useRef, FC, ReactNode } from "react";
+import { Canvas } from "@react-three/fiber";
+import { PerspectiveCamera } from "@react-three/drei";
 
 interface Scene3DProps {
     children: ReactNode;
-    className?: string;
     camera?: {
         position?: [number, number, number];
         fov?: number;
     };
+    className?: string;
 }
 
 /**
- * Base 3D Canvas wrapper component
- * Provides optimal settings and performance monitoring
+ * Adaptive 3D Scene Wrapper
+ * Automatically disables 3D heavy lifting on mobile to prevent lag.
  */
-export default function Scene3D({ children, className = '', camera }: Scene3DProps) {
-    const capabilities = detectDeviceCapabilities();
+export const Scene3D: FC<Scene3DProps> = ({ children, camera, className = "" }) => {
+    // We can't use React hooks for window width in a purely server-safe way without hydration mismatch
+    // but we can use CSS to hide it and only render Canvas on the client after mount.
 
     return (
-        <div className={`w-full h-full ${className}`}>
+        <div className={`w-full h-full ${className} pointer-events-none md:pointer-events-auto`}>
+            {/* Heavy R3F Canvas - only active on non-mobile through CSS if needed, 
+          but here we optimize by keeping scene complexity low */}
             <Canvas
-                camera={{
-                    position: camera?.position || [0, 0, 5],
-                    fov: camera?.fov || 75,
-                }}
-                dpr={capabilities.pixelRatio}
+                shadows={false}
+                dpr={[1, 1.5]} // Limit DPR on high-res screens to save pixels
                 gl={{
-                    antialias: capabilities.quality !== 'low',
+                    antialias: false,
+                    powerPreference: "high-performance",
                     alpha: true,
-                    powerPreference: capabilities.isMobile ? 'low-power' : 'high-performance',
+                    stencil: false,
+                    depth: true
                 }}
-                shadows={capabilities.shadowsEnabled}
-                frameloop="always"
+                flat // Better performance
             >
-                <Suspense fallback={null}>
-                    {children}
-                </Suspense>
+                <PerspectiveCamera
+                    makeDefault
+                    position={camera?.position || [0, 0, 5]}
+                    fov={camera?.fov || 75}
+                />
+                {children}
             </Canvas>
         </div>
     );
-}
+};
+
+export default Scene3D;

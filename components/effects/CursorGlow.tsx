@@ -1,66 +1,80 @@
 "use client";
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, useMemo } from 'react';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 /**
- * Custom Cursor with Glow Effect
- * Following cursor dot with animated radial gradient glow
+ * Optimized Custom Cursor with Glow Effect
+ * Uses hardware acceleration and spring physics for maximum smoothness
  */
 export default function CursorGlow() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isClicking, setIsClicking] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+
+    // Use Motion Values for high-performance updates outside of React render cycle
+    const mouseX = useMotionValue(-100);
+    const mouseY = useMotionValue(-100);
+
+    // Spring configuration for smooth but responsive movement
+    const springConfig = { damping: 30, stiffness: 500, mass: 0.5 };
+    const springX = useSpring(mouseX, springConfig);
+    const springY = useSpring(mouseY, springConfig);
 
     useEffect(() => {
-        // Check if mobile
+        // Precise mobile detection
         const checkMobile = () => {
-            setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+            const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+            setIsMobile(mobile);
         };
 
         checkMobile();
 
-        // We can't really "return" early for hooks, but we can prevent listeners
         if (isMobile) return;
 
-        const updateMousePosition = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isVisible) setIsVisible(true);
+            mouseX.set(e.clientX);
+            mouseY.set(e.clientY);
         };
 
         const handleMouseDown = () => setIsClicking(true);
         const handleMouseUp = () => setIsClicking(false);
+        const handleMouseLeave = () => setIsVisible(false);
+        const handleMouseEnter = () => setIsVisible(true);
 
-        window.addEventListener('mousemove', updateMousePosition);
+        window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mousedown', handleMouseDown);
         window.addEventListener('mouseup', handleMouseUp);
+        document.body.addEventListener('mouseleave', handleMouseLeave);
+        document.body.addEventListener('mouseenter', handleMouseEnter);
 
         return () => {
-            window.removeEventListener('mousemove', updateMousePosition);
+            window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
+            document.body.removeEventListener('mouseleave', handleMouseLeave);
+            document.body.removeEventListener('mouseenter', handleMouseEnter);
         };
-    }, [isMobile]);
+    }, [isMobile, isVisible, mouseX, mouseY]);
 
     if (isMobile) return null;
 
     return (
         <>
-            {/* Glow effect */}
+            {/* Glow effect - Optimized with translate3d through framer-motion */}
             <motion.div
-                className="pointer-events-none fixed z-[9999] mix-blend-screen"
-                animate={{
-                    x: mousePosition.x - 100,
-                    y: mousePosition.y - 100,
+                className="pointer-events-none fixed top-0 left-0 z-[9999] mix-blend-screen will-change-transform"
+                style={{
+                    x: springX,
+                    y: springY,
+                    translateX: '-50%',
+                    translateY: '-50%',
+                    opacity: isVisible ? 0.3 : 0,
                     scale: isClicking ? 0.8 : 1,
-                }}
-                transition={{
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 28,
-                    mass: 0.5,
                 }}
             >
                 <div
-                    className="w-[200px] h-[200px] rounded-full opacity-30"
+                    className="w-[300px] h-[300px] rounded-full"
                     style={{
                         background: 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%)',
                     }}
@@ -69,16 +83,14 @@ export default function CursorGlow() {
 
             {/* Cursor dot */}
             <motion.div
-                className="pointer-events-none fixed z-[10000] w-2 h-2 rounded-full bg-avalon-accent border border-avalon-accent/50"
-                animate={{
-                    x: mousePosition.x - 4,
-                    y: mousePosition.y - 4,
+                className="pointer-events-none fixed top-0 left-0 z-[10000] w-2 h-2 rounded-full bg-avalon-accent border border-avalon-accent/50 will-change-transform"
+                style={{
+                    x: mouseX,
+                    y: mouseY,
+                    translateX: '-50%',
+                    translateY: '-50%',
+                    opacity: isVisible ? 1 : 0,
                     scale: isClicking ? 0.6 : 1,
-                }}
-                transition={{
-                    type: "spring",
-                    stiffness: 800,
-                    damping: 30,
                 }}
             />
         </>

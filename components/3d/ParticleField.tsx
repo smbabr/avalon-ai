@@ -64,8 +64,9 @@ export default function ParticleField({
         pointsRef.current.rotation.x += (targetRotX - pointsRef.current.rotation.x) * 0.05;
         pointsRef.current.rotation.y += (targetRotY - pointsRef.current.rotation.y) * 0.05;
 
-        // Wave motion - only every 3rd frame for better performance
-        if (frameCount % 3 !== 0) return;
+        // Wave motion - disabled on mobile, and only every 4th frame on desktop
+        if (isMobile) return;
+        if (frameCount % 4 !== 0) return;
 
         const positions = pointsRef.current.geometry.attributes.position;
         const array = positions.array as Float32Array;
@@ -73,8 +74,7 @@ export default function ParticleField({
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
             const y = array[i3 + 1];
-            // Simplified wave - only vertical
-            array[i3 + 1] = y + Math.sin(time * 0.5 + i * 0.1) * 0.01;
+            array[i3 + 1] = y + Math.sin(time * 0.4 + i * 0.1) * 0.008;
         }
 
         positions.needsUpdate = true;
@@ -85,8 +85,8 @@ export default function ParticleField({
             <PointMaterial
                 transparent
                 color="#10B981"
-                size={0.025}
-                sizeAttenuation={true}
+                size={isMobile ? 0.04 : 0.025}
+                sizeAttenuation={!isMobile} // Performance boost for mobile
                 depthWrite={false}
                 opacity={0.75}
                 blending={THREE.AdditiveBlending}

@@ -4,6 +4,7 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-
 import Link from "next/link";
 import Image from "next/image";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import BackendStatus from "@/components/ui/BackendStatus";
 
 export default function Navigation() {
     const { scrollY } = useScroll();
@@ -32,7 +33,12 @@ export default function Navigation() {
                     className="w-10 h-10 object-contain"
                     priority
                 />
-                <span className="font-display font-medium text-xl tracking-tight">Avalon.ai</span>
+                <div className="flex flex-col">
+                    <span className="font-display font-medium text-xl tracking-tight leading-none">Avalon.ai</span>
+                    <div className="hidden md:block mt-1">
+                        <BackendStatus />
+                    </div>
+                </div>
             </div>
 
             <div className="hidden md:flex gap-8 text-sm font-medium text-avalon-text-secondary">
