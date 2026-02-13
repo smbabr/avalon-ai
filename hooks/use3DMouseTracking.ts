@@ -39,7 +39,7 @@ export function use3DMouseTracking(options: Use3DMouseTrackingOptions = {}): Mou
 
     const targetPos = useRef({ x: 0, y: 0 });
     const currentPos = useRef({ x: 0, y: 0 });
-    const rafId = useRef<number>();
+    const rafId = useRef<number | null>(null);
 
     useEffect(() => {
         if (!enabled) return;

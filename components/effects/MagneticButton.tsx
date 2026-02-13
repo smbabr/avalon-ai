@@ -1,8 +1,8 @@
 "use client";
 import { ReactNode, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps } from 'framer-motion';
 
-interface MagneticButtonProps {
+interface MagneticButtonProps extends HTMLMotionProps<"button"> {
     children: ReactNode;
     className?: string;
     intensity?: number;
@@ -16,6 +16,7 @@ export default function MagneticButton({
     children,
     className = '',
     intensity = 0.3,
+    ...props
 }: MagneticButtonProps) {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -53,6 +54,7 @@ export default function MagneticButton({
                 mass: 0.1,
             }}
             className={className}
+            {...props}
         >
             {children}
         </motion.button>
