@@ -79,8 +79,21 @@ export default function Navigation() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 bg-avalon-base/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8"
+                        className="fixed inset-0 bg-avalon-base z-[100] flex flex-col items-center justify-center space-y-8 px-6"
                     >
+                        <div className="absolute top-8 left-8">
+                            <div className="flex items-center gap-3">
+                                <Image
+                                    src="/logo.png"
+                                    alt="Avalon.ai Logo"
+                                    width={32}
+                                    height={32}
+                                    className="w-8 h-8 object-contain"
+                                />
+                                <span className="font-display font-medium text-lg tracking-tight">Avalon.ai</span>
+                            </div>
+                        </div>
+
                         {[
                             { name: "Home", path: "/" },
                             { name: "About", path: "/about" },
@@ -93,7 +106,7 @@ export default function Navigation() {
                                 key={item.name}
                                 href={item.path}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-2xl font-display font-light text-avalon-text-primary hover:text-avalon-accent transition-colors"
+                                className="text-3xl font-display font-light text-avalon-text-primary hover:text-avalon-accent transition-all duration-300 w-full text-center py-2 border-b border-avalon-surface-alt/10"
                             >
                                 {item.name}
                             </Link>
