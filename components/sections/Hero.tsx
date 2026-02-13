@@ -1,3 +1,4 @@
+"use client";
 import { FadeIn } from "@/components/ui/Motion";
 import Scene3D from "@/components/ui/Scene3D";
 import ParticleField from "@/components/3d/ParticleField";
