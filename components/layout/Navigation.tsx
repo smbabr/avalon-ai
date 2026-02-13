@@ -24,7 +24,7 @@ export default function Navigation() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
-            <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-[1.02]">
                 <Image
                     src="/logo.png"
                     alt="Avalon.ai Logo"
@@ -39,10 +39,11 @@ export default function Navigation() {
                         <BackendStatus />
                     </div>
                 </div>
-            </div>
+            </Link>
 
             <div className="hidden md:flex gap-8 text-sm font-medium text-avalon-text-secondary">
                 {[
+                    { name: "Home", path: "/" },
                     { name: "About", path: "/about" },
                     { name: "Universities", path: "/universities" },
                     { name: "Conduct", path: "/conduct" },
