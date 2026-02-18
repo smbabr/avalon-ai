@@ -34,25 +34,10 @@ export default function BackendStatus() {
     }, []);
 
     return (
-        <div className="flex items-center gap-4 px-4 py-2 bg-avalon-surface/30 backdrop-blur-sm border border-avalon-surface-alt rounded-sm">
-            <div className="flex items-center gap-2">
-                <div className={`w-1.5 h-1.5 rounded-full ${status === "online" ? "bg-[#10B981] animate-pulse shadow-[0_0_8px_#10B981]" :
-                    status === "connecting" ? "bg-yellow-500" : "bg-red-500"
-                    }`} />
-                <span className="text-[10px] font-mono uppercase tracking-widest text-avalon-text-secondary">
-                    SYSTEM_{status === "online" ? "ONLINE" : status === "connecting" ? "CONNECTING" : "OFFLINE"}
-                </span>
-            </div>
-
-            {status === "online" && latency && (
-                <div className="h-3 w-px bg-avalon-surface-alt" />
-            )}
-
-            {status === "online" && latency && (
-                <span className="text-[10px] font-mono text-avalon-accent/60">
-                    {latency}ms_RTT
-                </span>
-            )}
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-avalon-surface/30 backdrop-blur-sm border border-avalon-surface-alt rounded-full">
+            <div className={`w-2 h-2 rounded-full ${status === "online" ? "bg-[#10B981] animate-pulse shadow-[0_0_8px_#10B981]" :
+                status === "connecting" ? "bg-yellow-500" : "bg-red-500"
+                }`} title={status === "online" ? "System Online" : status === "connecting" ? "Connecting..." : "System Offline"} />
         </div>
     );
 }
