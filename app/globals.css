@@ -4,34 +4,41 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui;
   --font-display: var(--font-ibm-plex-sans), ui-sans-serif, system-ui;
 
+  --color-avalon-base: var(--avalon-base);
+  --color-avalon-surface: var(--avalon-surface);
+  --color-avalon-surface-alt: var(--avalon-surface-alt);
+  --color-avalon-text-primary: var(--avalon-text-primary);
+  --color-avalon-text-secondary: var(--avalon-text-secondary);
+  --color-avalon-accent: var(--avalon-accent);
+
   --ease-strict: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-material: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Dark Theme (Default) */
 :root {
-  --color-avalon-base: #050505;
-  --color-avalon-surface: #0A0A0A;
-  --color-avalon-surface-alt: #121212;
-  --color-avalon-text-primary: #EDEDED;
-  --color-avalon-text-secondary: #888888;
-  --color-avalon-accent: #10B981;
+  --avalon-base: #050505;
+  --avalon-surface: #0A0A0A;
+  --avalon-surface-alt: #121212;
+  --avalon-text-primary: #EDEDED;
+  --avalon-text-secondary: #888888;
+  --avalon-accent: #10B981;
 
-  --background: var(--color-avalon-base);
-  --foreground: var(--color-avalon-text-primary);
+  --background: var(--avalon-base);
+  --foreground: var(--avalon-text-primary);
 }
 
 /* Premium Light Theme (Cyber-Snow) */
 :root[data-theme="light"] {
-  --color-avalon-base: #F8FAFC;
-  --color-avalon-surface: #FFFFFF;
-  --color-avalon-surface-alt: #E2E8F0;
-  --color-avalon-text-primary: #0F172A;
-  --color-avalon-text-secondary: #475569;
-  --color-avalon-accent: #0D9488;
+  --avalon-base: #F8FAFC;
+  --avalon-surface: #FFFFFF;
+  --avalon-surface-alt: #E2E8F0;
+  --avalon-text-primary: #0F172A;
+  --avalon-text-secondary: #475569;
+  --avalon-accent: #0D9488;
 
-  --background: var(--color-avalon-base);
-  --foreground: var(--color-avalon-text-primary);
+  --background: var(--avalon-base);
+  --foreground: var(--avalon-text-primary);
 }
 
 body {

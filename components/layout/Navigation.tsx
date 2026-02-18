@@ -76,77 +76,80 @@ export default function Navigation() {
                 </div>
             </div>
 
-            {/* Mobile Toggle Button - Managed separately from standard dev for layering */}
+            {/* Mobile Toggle Button - Guaranteed Layering */}
             <button
-                className="md:hidden text-avalon-text-primary z-[110] focus:outline-none absolute right-6 top-1/2 -translate-y-1/2"
+                className="md:hidden z-[120] focus:outline-none fixed right-6 top-6 h-10 px-4 flex items-center justify-center bg-avalon-surface-alt/50 backdrop-blur-sm border border-avalon-surface-alt rounded-sm"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Toggle menu"
             >
-                <span className="font-mono text-xs font-medium tracking-widest text-avalon-accent">
+                <span className="font-mono text-[10px] font-bold tracking-[0.3em] text-avalon-accent">
                     {isMobileMenuOpen ? "CLOSE" : "MENU"}
                 </span>
             </button>
 
-            {/* Mobile Drawer - Immersive Overhaul */}
+            {/* Mobile Drawer - Immersive Layer */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: "-100%" }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: "-100%" }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 bg-avalon-base z-[100] flex flex-col justify-between p-10 pt-24 md:hidden"
+                        initial={{ opacity: 0, x: "100%" }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: "100%" }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-0 z-[110] md:hidden"
+                        style={{ backgroundColor: '#050505' }} // Forced Opaque Hex
                     >
-                        {/* Title in Drawer Header */}
-                        <div className="absolute top-8 left-8">
-                            <div className="flex items-center gap-3">
+                        <div className="flex flex-col h-full w-full p-8 justify-between relative">
+                            {/* Drawer Header */}
+                            <div className="flex items-center gap-4">
                                 <Image
                                     src="/logo.png"
                                     alt="Avalon.ai Logo"
-                                    width={32}
-                                    height={32}
-                                    className="w-8 h-8 object-contain"
+                                    width={28}
+                                    height={28}
+                                    className="w-7 h-7 object-contain"
                                 />
-                                <span className="font-display font-medium text-lg tracking-tight text-avalon-text-primary">Avalon.ai</span>
+                                <span className="font-display font-medium text-lg tracking-normal text-avalon-text-primary">Avalon.ai</span>
                             </div>
-                        </div>
 
-                        {/* Navigation Links - Reduced size for mobile fit */}
-                        <div className="flex flex-col space-y-6">
-                            {[
-                                { name: "Home", path: "/" },
-                                { name: "About", path: "/about" },
-                                { name: "Universities", path: "/universities" },
-                                { name: "Conduct", path: "/conduct" },
-                                { name: "Team", path: "/team" },
-                                { name: "Contact", path: "/contact" }
-                            ].map((item, idx) => (
-                                <motion.div
-                                    key={item.name}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.1 + idx * 0.05 }}
-                                >
-                                    <Link
-                                        href={item.path}
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                        className="text-4xl font-display font-light text-avalon-text-primary hover:text-avalon-accent transition-colors py-1 inline-block"
+                            {/* Navigation Links - Scaled for high-density mobile displays */}
+                            <div className="flex flex-col space-y-4">
+                                {[
+                                    { name: "Home", path: "/" },
+                                    { name: "About", path: "/about" },
+                                    { name: "Universities", path: "/universities" },
+                                    { name: "Conduct", path: "/conduct" },
+                                    { name: "Team", path: "/team" },
+                                    { name: "Contact", path: "/contact" }
+                                ].map((item, idx) => (
+                                    <motion.div
+                                        key={item.name}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.1 + idx * 0.04 }}
                                     >
-                                        {item.name}
-                                    </Link>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* Footer in Drawer */}
-                        <div className="border-t border-avalon-surface-alt/30 pt-8 flex justify-between items-end">
-                            <div>
-                                <p className="text-[10px] font-mono text-avalon-text-secondary tracking-[0.2em] uppercase mb-1">System Node</p>
-                                <BackendStatus />
+                                        <Link
+                                            href={item.path}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="text-3xl font-display font-light text-avalon-text-primary active:text-avalon-accent transition-colors py-2 border-b border-avalon-surface-alt/10 w-full block"
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    </motion.div>
+                                ))}
                             </div>
-                            <div className="text-right">
-                                <p className="text-[10px] font-mono text-avalon-text-secondary tracking-widest uppercase mb-1">v1.0.0</p>
-                                <p className="text-[10px] font-mono text-avalon-accent/60 tracking-tighter">© 2025 AVALON.AI</p>
+
+                            {/* Drawer Footer */}
+                            <div className="border-t border-avalon-surface-alt pt-8 flex flex-col gap-6">
+                                <div className="flex justify-between items-end">
+                                    <div>
+                                        <p className="text-[10px] font-mono text-avalon-text-secondary tracking-[0.2em] uppercase mb-2">Technical Status</p>
+                                        <BackendStatus />
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-[10px] font-mono text-avalon-accent/80 tracking-widest uppercase mb-1">Avalon Nexus</p>
+                                        <p className="text-[10px] font-mono text-avalon-text-secondary opacity-50">EST. 2025</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
