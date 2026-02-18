@@ -10,25 +10,25 @@
 
 /* Dark Theme (Default) */
 :root {
-  --color-avalon-base: #0A0A0A;
-  --color-avalon-surface: #111111;
-  --color-avalon-surface-alt: #161616;
+  --color-avalon-base: #050505;
+  --color-avalon-surface: #0A0A0A;
+  --color-avalon-surface-alt: #121212;
   --color-avalon-text-primary: #EDEDED;
-  --color-avalon-text-secondary: #9A9A9A;
+  --color-avalon-text-secondary: #888888;
   --color-avalon-accent: #10B981;
 
   --background: var(--color-avalon-base);
   --foreground: var(--color-avalon-text-primary);
 }
 
-/* Light Theme */
+/* Premium Light Theme (Cyber-Snow) */
 :root[data-theme="light"] {
-  --color-avalon-base: #FFFFFF;
-  --color-avalon-surface: #F9FAFB;
-  --color-avalon-surface-alt: #E5E7EB;
+  --color-avalon-base: #F8FAFC;
+  --color-avalon-surface: #FFFFFF;
+  --color-avalon-surface-alt: #E2E8F0;
   --color-avalon-text-primary: #0F172A;
   --color-avalon-text-secondary: #475569;
-  --color-avalon-accent: #059669;
+  --color-avalon-accent: #0D9488;
 
   --background: var(--color-avalon-base);
   --foreground: var(--color-avalon-text-primary);
@@ -40,7 +40,34 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s var(--ease-strict), color 0.5s var(--ease-strict);
+}
+
+/* Enforce Strict Typography Consistency */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-display {
+  font-family: var(--font-display) !important;
+}
+
+p,
+span,
+div,
+li,
+a,
+button,
+input,
+textarea,
+.font-sans {
+  font-family: var(--font-sans) !important;
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
 
 ::selection {

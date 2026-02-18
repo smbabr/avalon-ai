@@ -70,7 +70,7 @@ export default function Hero() {
                     </div>
                     <h1 className="text-6xl md:text-8xl font-display font-extralight tracking-tighter text-balance leading-[0.9]">
                         Intelligence in <br className="hidden md:block" />
-                        <span className="gradient-text italic">Silence</span> & Precision.
+                        <span className="gradient-text italic pr-2">Silence</span> & Precision.
                     </h1>
                 </FadeIn>
 

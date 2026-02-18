@@ -24,53 +24,65 @@ export default function About() {
                     </FadeIn>
                 </section>
 
-                {/* Founder Section */}
+                {/* The Institution */}
                 <SectionEntry>
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start border-t border-avalon-surface-alt pt-12">
-                        <div className="md:col-span-4">
-                            <div className="aspect-[3/4] bg-avalon-surface relative overflow-hidden rounded-sm border border-avalon-surface-alt grayscale hover:grayscale-0 transition-all duration-700">
-                                {/* Placeholder for Founder Portrait */}
-                                <div className="absolute inset-0 flex items-center justify-center text-avalon-text-secondary/20">
-                                    PORTRAIT
-                                </div>
-                            </div>
-                            <div className="mt-4">
-                                <h3 className="text-lg font-display font-medium">Founder Name</h3>
-                                <p className="text-xs text-avalon-text-secondary font-mono tracking-wider">FOUNDING DIRECTOR</p>
-                            </div>
-                        </div>
-
-                        <div className="md:col-span-8 space-y-8">
-                            <h2 className="text-3xl font-display font-light">The Discipline of Intelligence</h2>
-                            <div className="space-y-6 text-avalon-text-secondary leading-relaxed">
+                    <div className="border-t border-avalon-surface-alt pt-12">
+                        <div className="max-w-3xl mx-auto space-y-12 text-center">
+                            <h2 className="text-4xl md:text-6xl font-display font-light leading-tight">The Discipline of <br /><span className="gradient-text italic">Intelligence</span></h2>
+                            <div className="space-y-8 text-avalon-text-secondary leading-relaxed text-lg font-light">
                                 <p>
-                                    My journey began with a realization during my time teaching AI with PIAIC: talent is evenly distributed, but opportunity is concentrated.
+                                    Avalon.ai is not just an educational platform; it is a discipline-driven institution designed to extract and refine the latent cognitive potential of our region.
                                 </p>
                                 <p>
-                                    Nawabshah (SBA) represents a reservoir of untapped cognitive potential. We are here to prove that with strict discipline, world-class curriculum, and ethical grounding, this region can produce global-tier AI engineers.
+                                    Our methodology is built on the belief that peak intelligence is achieved through silence, rigor, and technical excellence. We bridge the gap between world-class AI research and local talent, creating a direct pipeline for those willing to commit to the path.
                                 </p>
                                 <p>
-                                    We do not offer shortcuts. We offer a rigorous path for those willing to walk it.
+                                    At Avalon, we focus on the "How" and the "Why" of artificial systems, moving beyond surface-level bootcamps to foster deep engineering expertise.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </SectionEntry>
 
-                {/* Vision Section */}
+                {/* Core Pillars */}
                 <SectionEntry>
-                    <div className="border-l-2 border-avalon-accent pl-8 py-2 glass p-8 rounded-r-lg">
-                        <h2 className="text-2xl font-display font-light mb-12 gradient-text">Strategic Roadmap</h2>
-                        <div className="space-y-12">
-                            <div className="group relative p-6 border border-avalon-surface-alt hover:border-avalon-accent transition-all duration-500 hover:glow-accent">
-                                <span className="text-xs font-mono text-avalon-accent mb-2 block pulse-glow">PHASE 1 (2025-2026)</span>
-                                <h3 className="text-xl text-avalon-text-primary mb-2 group-hover:shimmer inline-block">The Foundation</h3>
-                                <p className="text-sm text-avalon-text-secondary">Establishing core campus nodes at QUEST and SBBU. Filtering the first cohort of elite engineers.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[
+                            { title: "Rigor", desc: "A strict curriculum modeled after the world's most elite research labs." },
+                            { title: "Silence", desc: "Focusing on deep work and technical execution over marketing noise." },
+                            { title: "Precision", desc: "Engineering solutions with mathematical accuracy and ethical grounding." }
+                        ].map((pillar) => (
+                            <div key={pillar.title} className="p-8 border border-avalon-surface-alt glass hover:border-avalon-accent transition-colors duration-500">
+                                <h3 className="text-xl font-display font-medium mb-4">{pillar.title}</h3>
+                                <p className="text-sm text-avalon-text-secondary leading-relaxed">{pillar.desc}</p>
                             </div>
-                            <div className="group relative p-6 border border-avalon-surface-alt hover:border-avalon-accent transition-all duration-500 hover:glow-accent opacity-70 hover:opacity-100">
-                                <span className="text-xs font-mono text-avalon-text-secondary/50 mb-2 block">PHASE 2 (2027-2028)</span>
-                                <h3 className="text-xl text-avalon-text-primary/70 mb-2">Institutional Scale</h3>
-                                <p className="text-sm text-avalon-text-secondary/70">Connecting with global research labs. Launching the dedicated Avalon Research Center.</p>
+                        ))}
+                    </div>
+                </SectionEntry>
+
+                {/* Strategic Roadmap */}
+                <SectionEntry>
+                    <div className="glass p-12 rounded-sm border border-avalon-surface-alt">
+                        <h2 className="text-2xl font-display font-light mb-16 text-center tracking-widest uppercase">Institutional Roadmap</h2>
+                        <div className="space-y-16">
+                            <div className="flex flex-col md:flex-row gap-8 items-start relative">
+                                <div className="md:w-1/4">
+                                    <span className="text-xs font-mono text-avalon-accent mb-2 block pulse-glow tracking-[0.2em]">PHASE 1 (2025)</span>
+                                    <h3 className="text-xl font-display font-medium">Foundation</h3>
+                                </div>
+                                <div className="md:w-3/4 text-avalon-text-secondary text-sm leading-relaxed pt-2">
+                                    Establishing core campus nodes at QUEST and SBBU. Filtering and refining the first cohort of elite engineers through rigorous selection.
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col md:flex-row gap-8 items-start relative opacity-60">
+                                <div className="md:w-1/4">
+                                    <span className="text-xs font-mono text-avalon-text-secondary/50 mb-2 block tracking-[0.2em]">PHASE 2 (2026+)</span>
+                                    <h3 className="text-xl font-display font-medium">Global Nexus</h3>
+                                </div>
+                                <div className="md:w-3/4 text-avalon-text-secondary text-sm leading-relaxed pt-2">
+                                    Direct integration with international AI research labs and decentralized computing networks. Scaling the discipline across the province.
+                                </div>
                             </div>
                         </div>
                     </div>
