@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,6 +15,18 @@ export default function Navigation() {
         setIsScrolled(latest > 24);
     });
 
+    // Lock body scroll when mobile menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isMobileMenuOpen]);
+
     return (
         <motion.nav
             suppressHydrationWarning
@@ -24,138 +36,119 @@ export default function Navigation() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
-            <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-[1.02]">
-                <Image
-                    src="/logo.png"
-                    alt="Avalon.ai Logo"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 object-contain"
-                    priority
-                />
-                <div className="flex flex-col">
-                    <span className="font-display font-medium text-xl tracking-tight leading-none">Avalon.ai</span>
-                    <div className="hidden md:block mt-1">
-                        <BackendStatus />
+            {/* Standard Nav Content - Hidden when menu is open to prevent double-rendering */}
+            <div className={`flex items-center justify-between w-full transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-0 invisible" : "opacity-100 visible"}`}>
+                <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-[1.02]">
+                    <Image
+                        src="/logo.png"
+                        alt="Avalon.ai Logo"
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 object-contain"
+                        priority
+                    />
+                    <div className="flex flex-col">
+                        <span className="font-display font-medium text-xl tracking-tight leading-none">Avalon.ai</span>
+                        <div className="hidden md:block mt-1">
+                            <BackendStatus />
+                        </div>
                     </div>
-                </div>
-            </Link>
+                </Link>
 
-            <div className="hidden md:flex gap-8 text-sm font-medium text-avalon-text-secondary">
-                {[
-                    { name: "Home", path: "/" },
-                    { name: "About", path: "/about" },
-                    { name: "Universities", path: "/universities" },
-                    { name: "Conduct", path: "/conduct" },
-                    { name: "Team", path: "/team" },
-                    { name: "Contact", path: "/contact" }
-                ].map((item) => (
-                    <Link key={item.name} href={item.path} className="hover:text-avalon-text-primary transition-colors duration-200">
-                        {item.name}
-                    </Link>
-                ))}
+                <div className="hidden md:flex gap-8 text-sm font-medium text-avalon-text-secondary">
+                    {[
+                        { name: "Home", path: "/" },
+                        { name: "About", path: "/about" },
+                        { name: "Universities", path: "/universities" },
+                        { name: "Conduct", path: "/conduct" },
+                        { name: "Team", path: "/team" },
+                        { name: "Contact", path: "/contact" }
+                    ].map((item) => (
+                        <Link key={item.name} href={item.path} className="hover:text-avalon-text-primary transition-colors duration-200">
+                            {item.name}
+                        </Link>
+                    ))}
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <ThemeToggle />
+                    {/* Mobile Menu Toggle - Stays visible even when main nav content fades */}
+                </div>
             </div>
 
-            {/* Theme Toggle */}
-            <ThemeToggle />
-
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Toggle Button - Managed separately from standard dev for layering */}
             <button
-                className="md:hidden text-avalon-text-primary z-[60] focus:outline-none relative"
+                className="md:hidden text-avalon-text-primary z-[110] focus:outline-none absolute right-6 top-1/2 -translate-y-1/2"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Toggle menu"
             >
-                {isMobileMenuOpen ? (
-                    <span className="font-mono text-xs font-medium tracking-wider">CLOSE</span>
-                ) : (
-                    <span className="font-mono text-xs font-medium tracking-wider">MENU</span>
-                )}
+                <span className="font-mono text-xs font-medium tracking-widest text-avalon-accent">
+                    {isMobileMenuOpen ? "CLOSE" : "MENU"}
+                </span>
             </button>
 
-            {/* Mobile Drawer - Immersive Layer */}
+            {/* Mobile Drawer - Immersive Overhaul */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] md:hidden"
+                        initial={{ opacity: 0, y: "-100%" }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: "-100%" }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-0 bg-avalon-base z-[100] flex flex-col justify-between p-10 pt-24 md:hidden"
                     >
-                        {/* Backdrop Blur */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="absolute inset-0 bg-avalon-base/95 backdrop-blur-xl"
-                        />
+                        {/* Title in Drawer Header */}
+                        <div className="absolute top-8 left-8">
+                            <div className="flex items-center gap-3">
+                                <Image
+                                    src="/logo.png"
+                                    alt="Avalon.ai Logo"
+                                    width={32}
+                                    height={32}
+                                    className="w-8 h-8 object-contain"
+                                />
+                                <span className="font-display font-medium text-lg tracking-tight text-avalon-text-primary">Avalon.ai</span>
+                            </div>
+                        </div>
 
-                        {/* Content Container */}
-                        <motion.div
-                            initial={{ x: "100%" }}
-                            animate={{ x: 0 }}
-                            exit={{ x: "100%" }}
-                            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                            className="relative h-full w-full flex flex-col p-8 justify-between"
-                        >
-                            {/* Drawer Header */}
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center gap-3">
-                                    <Image
-                                        src="/logo.png"
-                                        alt="Avalon.ai Logo"
-                                        width={28}
-                                        height={28}
-                                        className="w-7 h-7 object-contain"
-                                    />
-                                    <span className="font-display font-medium text-lg tracking-tight">Avalon.ai</span>
-                                </div>
-                                <button
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="p-3 text-avalon-accent hover:bg-avalon-accent/10 rounded-full transition-colors"
+                        {/* Navigation Links - Reduced size for mobile fit */}
+                        <div className="flex flex-col space-y-6">
+                            {[
+                                { name: "Home", path: "/" },
+                                { name: "About", path: "/about" },
+                                { name: "Universities", path: "/universities" },
+                                { name: "Conduct", path: "/conduct" },
+                                { name: "Team", path: "/team" },
+                                { name: "Contact", path: "/contact" }
+                            ].map((item, idx) => (
+                                <motion.div
+                                    key={item.name}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.1 + idx * 0.05 }}
                                 >
-                                    <span className="font-mono text-xs tracking-widest">CLOSE</span>
-                                </button>
-                            </div>
-
-                            {/* Main Navigation Links */}
-                            <div className="space-y-6">
-                                {[
-                                    { name: "Home", path: "/" },
-                                    { name: "About", path: "/about" },
-                                    { name: "Universities", path: "/universities" },
-                                    { name: "Conduct", path: "/conduct" },
-                                    { name: "Team", path: "/team" },
-                                    { name: "Contact", path: "/contact" }
-                                ].map((item, idx) => (
-                                    <motion.div
-                                        key={item.name}
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.1 + idx * 0.05 }}
+                                    <Link
+                                        href={item.path}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="text-4xl font-display font-light text-avalon-text-primary hover:text-avalon-accent transition-colors py-1 inline-block"
                                     >
-                                        <Link
-                                            href={item.path}
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                            className="text-5xl font-display font-light text-avalon-text-primary hover:text-avalon-accent transition-all duration-300 block"
-                                        >
-                                            {item.name}
-                                        </Link>
-                                    </motion.div>
-                                ))}
-                            </div>
+                                        {item.name}
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </div>
 
-                            {/* Drawer Footer */}
-                            <div className="border-t border-avalon-surface-alt/20 pt-8 flex justify-between items-end">
-                                <div className="space-y-2">
-                                    <p className="text-[10px] font-mono text-avalon-text-secondary tracking-[0.2em] uppercase">Status</p>
-                                    <BackendStatus />
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-[10px] font-mono text-avalon-accent/60 tracking-widest uppercase">Avalon v1.0</p>
-                                    <p className="text-[10px] font-mono text-avalon-text-secondary">© 2025</p>
-                                </div>
+                        {/* Footer in Drawer */}
+                        <div className="border-t border-avalon-surface-alt/30 pt-8 flex justify-between items-end">
+                            <div>
+                                <p className="text-[10px] font-mono text-avalon-text-secondary tracking-[0.2em] uppercase mb-1">System Node</p>
+                                <BackendStatus />
                             </div>
-                        </motion.div>
+                            <div className="text-right">
+                                <p className="text-[10px] font-mono text-avalon-text-secondary tracking-widest uppercase mb-1">v1.0.0</p>
+                                <p className="text-[10px] font-mono text-avalon-accent/60 tracking-tighter">© 2025 AVALON.AI</p>
+                            </div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
