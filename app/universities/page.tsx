@@ -20,9 +20,17 @@ export default function Universities() {
             try {
                 const response = await fetch('/api/nodes');
                 const data = await response.json();
-                setNodes(data);
+
+                // Safety check: ensure we only set nodes if we got a valid array
+                if (Array.isArray(data)) {
+                    setNodes(data);
+                } else {
+                    console.error("Universities API did not return an array:", data);
+                    setNodes([]);
+                }
             } catch (err) {
-                console.error("Failed to fetch nodes:", err);
+                console.error("Failed to fetch node data:", err);
+                setNodes([]);
             } finally {
                 setLoading(false);
             }

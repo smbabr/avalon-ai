@@ -22,7 +22,8 @@ export async function GET() {
         return NextResponse.json(nodes, { status: 200 });
     } catch (error) {
         console.error("Nodes API Error:", error);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+        // Safely return an empty array to prevent client-side crashes
+        return NextResponse.json([], { status: 200 });
     }
 }
 
