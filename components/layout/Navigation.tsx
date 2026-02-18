@@ -47,14 +47,14 @@ export default function Navigation() {
                         priority
                     />
                     <div className="flex flex-col">
-                        <span className="font-display font-medium text-xl tracking-tight leading-none">Avalon.ai</span>
+                        <span className="font-display font-medium text-xl tracking-tight leading-none text-avalon-text-primary light:text-black">Avalon.ai</span>
                         <div className="hidden md:block mt-1">
                             <BackendStatus />
                         </div>
                     </div>
                 </Link>
 
-                <div className="hidden md:flex gap-8 text-sm font-medium text-avalon-text-secondary">
+                <div className="hidden md:flex gap-8 text-sm font-medium">
                     {[
                         { name: "Home", path: "/" },
                         { name: "About", path: "/about" },
@@ -63,7 +63,11 @@ export default function Navigation() {
                         { name: "Team", path: "/team" },
                         { name: "Contact", path: "/contact" }
                     ].map((item) => (
-                        <Link key={item.name} href={item.path} className="hover:text-avalon-text-primary transition-colors duration-200">
+                        <Link
+                            key={item.name}
+                            href={item.path}
+                            className="text-avalon-text-secondary hover:text-black transition-colors duration-200 dark:hover:text-avalon-text-primary"
+                        >
                             {item.name}
                         </Link>
                     ))}
@@ -73,11 +77,11 @@ export default function Navigation() {
                     <ThemeToggle />
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="md:hidden text-avalon-text-primary focus:outline-none"
+                        className="md:hidden focus:outline-none"
                         onClick={() => setIsMobileMenuOpen(true)}
                         aria-label="Open menu"
                     >
-                        <span className="font-mono text-xs font-medium tracking-widest text-avalon-accent">MENU</span>
+                        <span className="font-mono text-xs font-medium tracking-widest text-avalon-accent light:text-black">MENU</span>
                     </button>
                 </div>
             </motion.nav>

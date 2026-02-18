@@ -61,11 +61,11 @@ export default function FloatingGeometry({
         <mesh ref={meshRef} position={position}>
             {geometry}
             <meshBasicMaterial
-                color="#10B981"
+                color="#64748B" // Darker Slate for structural visibility
                 wireframe
                 transparent
-                opacity={0.15}
-                blending={THREE.AdditiveBlending}
+                opacity={0.3} // Increased opacity to avoid "smudge" look
+                blending={THREE.NormalBlending} // Changed from Additive for better light theme visibility
             />
         </mesh>
     );

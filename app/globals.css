@@ -28,13 +28,13 @@
   --foreground: var(--avalon-text-primary);
 }
 
-/* Premium Light Theme (Cyber-Snow) */
+/* Premium Light Theme (Cyber-Snow - High Contrast) */
 :root[data-theme="light"] {
-  --avalon-base: #F8FAFC;
+  --avalon-base: #FAFAFA;
   --avalon-surface: #FFFFFF;
-  --avalon-surface-alt: #E2E8F0;
+  --avalon-surface-alt: #E5E7EB;
   --avalon-text-primary: #0F172A;
-  --avalon-text-secondary: #475569;
+  --avalon-text-secondary: #1A1A1A;
   --avalon-accent: #0D9488;
 
   --background: var(--avalon-base);

@@ -36,16 +36,16 @@ export default function Footer() {
 
                 {/* Contact Column */}
                 <div className="space-y-4">
-                    <h4 className="text-xs font-mono uppercase tracking-widest text-avalon-text-secondary/50">Contact</h4>
+                    <h4 className="text-xs font-mono uppercase tracking-widest text-avalon-text-primary font-bold">Contact</h4>
                     <div className="text-sm text-avalon-text-secondary space-y-1">
                         <p>inquiries@avalon.ai</p>
-                        <p>Nawabshah, Shaheed Benazirabad</p>
-                        <p>Sindh, Pakistan</p>
+                        <p className="font-medium">Nawabshah, Shaheed Benazirabad</p>
+                        <p className="font-medium">Sindh, Pakistan</p>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-6xl mx-auto mt-20 pt-8 border-t border-avalon-surface-alt flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-avalon-text-secondary/50 font-mono">
+            <div className="max-w-6xl mx-auto mt-20 pt-8 border-t border-avalon-surface-alt flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-avalon-text-primary/70 font-mono font-bold">
                 <p>© 2026 AVALON.AI SYSTEMS. ALL RIGHTS RESERVED.</p>
                 <p>OPERATING SYSTEM: v2.4.0</p>
             </div>

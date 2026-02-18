@@ -66,9 +66,9 @@ export default function Hero() {
             <div className="z-10 max-w-5xl space-y-10">
                 <FadeIn delay={0.2}>
                     <div className="inline-block px-3 py-1 mb-4 border border-avalon-surface-alt rounded-full backdrop-blur-sm bg-avalon-base/30">
-                        <span className="text-xs uppercase tracking-widest text-avalon-accent/80 font-medium">Neural Systems v1.0</span>
+                        <span className="text-xs uppercase tracking-widest text-avalon-accent font-medium">Neural Systems v1.0</span>
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-display font-extralight tracking-tighter text-balance leading-[0.9]">
+                    <h1 className="text-6xl md:text-8xl font-display font-extralight tracking-tighter text-balance leading-[0.9] text-avalon-text-primary">
                         Intelligence in <br className="hidden md:block" />
                         <span className="gradient-text italic pr-2">Silence</span> & Precision.
                     </h1>
@@ -89,7 +89,7 @@ export default function Hero() {
                             </MagneticButton>
                         </FadeIn>
                         <FadeIn delay={0.95}>
-                            <MagneticButton className="text-avalon-text-secondary hover:text-avalon-text-primary border border-avalon-surface-alt hover:border-avalon-text-secondary px-6 py-3 text-sm uppercase tracking-widest transition-all duration-200 rounded-sm">
+                            <MagneticButton className="text-avalon-text-secondary hover:text-avalon-text-primary border border-avalon-text-primary/10 hover:border-avalon-text-primary px-6 py-3 text-sm uppercase tracking-widest transition-all duration-200 rounded-sm light:border-avalon-text-primary">
                                 Manifesto
                             </MagneticButton>
                         </FadeIn>
