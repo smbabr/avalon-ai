@@ -52,8 +52,8 @@ export default function About() {
                             { title: "Silence", desc: "Focusing on deep work and technical execution over marketing noise." },
                             { title: "Precision", desc: "Engineering solutions with mathematical accuracy and ethical grounding." }
                         ].map((pillar) => (
-                            <div key={pillar.title} className="p-8 border border-avalon-surface-alt bg-avalon-surface shadow-sm hover:border-avalon-accent transition-all duration-500 hover:shadow-md">
-                                <h3 className="text-xl font-display font-medium mb-4 text-avalon-text-primary">{pillar.title}</h3>
+                            <div key={pillar.title} className="p-8 border border-avalon-surface-alt glass hover:border-avalon-accent transition-colors duration-500">
+                                <h3 className="text-xl font-display font-medium mb-4">{pillar.title}</h3>
                                 <p className="text-sm text-avalon-text-secondary leading-relaxed">{pillar.desc}</p>
                             </div>
                         ))}

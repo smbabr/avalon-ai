@@ -47,7 +47,7 @@ export default function Navigation() {
                         priority
                     />
                     <div className="flex flex-col">
-                        <span className="font-display font-medium text-xl tracking-tight leading-none text-avalon-text-primary light:text-black">Avalon.ai</span>
+                        <span className="font-display font-medium text-xl tracking-tight leading-none text-avalon-text-primary">Avalon.ai</span>
                         <div className="hidden md:block mt-1">
                             <BackendStatus />
                         </div>
@@ -66,7 +66,7 @@ export default function Navigation() {
                         <Link
                             key={item.name}
                             href={item.path}
-                            className="text-avalon-text-secondary hover:text-black transition-colors duration-200 dark:hover:text-avalon-text-primary"
+                            className="text-avalon-text-secondary hover:text-avalon-text-primary transition-colors duration-200"
                         >
                             {item.name}
                         </Link>
@@ -74,14 +74,13 @@ export default function Navigation() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <ThemeToggle />
                     {/* Mobile Menu Toggle */}
                     <button
                         className="md:hidden focus:outline-none"
                         onClick={() => setIsMobileMenuOpen(true)}
                         aria-label="Open menu"
                     >
-                        <span className="font-mono text-xs font-medium tracking-widest text-avalon-accent light:text-black">MENU</span>
+                        <span className="font-mono text-xs font-medium tracking-widest text-avalon-accent">MENU</span>
                     </button>
                 </div>
             </motion.nav>

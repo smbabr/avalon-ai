@@ -15,7 +15,7 @@
   --ease-material: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark Theme (Default) */
+/* Dark Theme (Default & Only) */
 :root {
   --avalon-base: #050505;
   --avalon-surface: #0A0A0A;
@@ -23,19 +23,6 @@
   --avalon-text-primary: #EDEDED;
   --avalon-text-secondary: #888888;
   --avalon-accent: #10B981;
-
-  --background: var(--avalon-base);
-  --foreground: var(--avalon-text-primary);
-}
-
-/* Premium Light Theme (Cyber-Snow - High Contrast) */
-:root[data-theme="light"] {
-  --avalon-base: #FAFAFA;
-  --avalon-surface: #FFFFFF;
-  --avalon-surface-alt: #E5E7EB;
-  --avalon-text-primary: #0F172A;
-  --avalon-text-secondary: #1A1A1A;
-  --avalon-accent: #0D9488;
 
   --background: var(--avalon-base);
   --foreground: var(--avalon-text-primary);
