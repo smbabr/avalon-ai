@@ -45,7 +45,7 @@ export default function Team() {
                     <SectionEntry>
                         <h2 className="text-xs font-mono text-avalon-text-secondary/50 uppercase tracking-widest mb-8 border-b border-avalon-surface-alt pb-4">Core Leadership</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <TeamCard name="Babar Sahito" role="Founding Director" type="core" />
+                            <TeamCard name="Babar Sahito" role="Founder" type="core" />
                             <TeamCard name="Miss Fatima Shaikh" role="Co-Founder" type="core" />
                         </div>
                     </SectionEntry>
